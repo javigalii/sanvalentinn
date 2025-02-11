@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🖤 San Valentín 🤍</title>
+    <style>
+      body {
+        background: linear-gradient(to right, #8b0000, #000000);
+        color: white;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+      .container {
+        padding: 20px;
+      }
+      .section {
+        display: none;
+      }
+      .active {
+        display: block;
+      }
+      .button {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+      .button:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+      .gallery img {
+        width: 500px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="section1" class="section active">
+        <h1>🖤 Feliz San Valentín, mi amor 🤍</h1>
+        <h2>
+          🐺 Mi amor quiero que sepas que estos 10 meses que llavamos
+          conociéndonos han sido los mejores meses que he pasado en mi vida. He
+          creado esta página web como un buen friki que soy para que tengas un
+          recuerdo bonito de este dia y estos meses atras y siempre que quieras
+          poder entrar a verla. Ojala a partir de este año esperes este día del
+          año con ilusión por el gran significado que tiene. 🐺
+        </h2>
+
+        <div class="valentin-images">
+          <img src="imagenes/mascotas/21.jpeg" width="400" />
+          <img src="imagenes/mascotas/25.jpeg" width="400" />
+        </div>
+        <button class="button" onclick="nextSection(2)">➡ Siguiente</button>
+      </div>
+
+      <div id="section2" class="section">
+        <h2>Foticos Nuestras 📸</h2>
+        <div class="gallery">
+          <img
+            id="galleryImage"
+            src="imagenes/nosotros/1.jpeg"
+            alt="Recuerdo 1"
+          />
+          <p id="galleryText">
+            Este día te estaba haciendo el princess treatment que te mereces y
+            estabas muy mona, parecias una niña pequeñita.
+          </p>
+        </div>
+        <button class="button" onclick="prevImage()">⬅ Anterior</button>
+        <button class="button" id="nextImageButton" onclick="nextImage()">
+          ➡ Siguiente
+        </button>
+        <button
+          class="button"
+          id="gameButton"
+          onclick="nextSection(3)"
+          style="display: none"
+        >
+          ➡ Pasar al juego
+        </button>
+      </div>
+
+      <div id="section3" class="section">
+        <h2>¿Cuanto recuerdas de nuestro primer año? 🐺</h2>
+        <img src="imagenes/mascotas/23.jpeg" width="800" alt="Pregunta" />
+        <p id="questionText"></p>
+        <div id="answers"></div>
+        <p id="gameResult"></p>
+        <button
+          class="button"
+          id="nextQuestionButton"
+          onclick="nextQuestion()"
+          style="display: none"
+        >
+          ➡ Siguiente pregunta
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let currentSection = 1;
+      let currentImage = 0;
+      const images = [
+        {
+          src: "imagenes/nosotros/1.jpeg",
+          text: "Este día te estaba haciendo el princess treatment que te mereces y estabas muy mona, parecias una niña pequeñita.",
+        },
+        {
+          src: "imagenes/nosotros/2.jpeg",
+          text: "Aquí llevabamos la misma camisetita. Porque te hacia mucha ilusión tener una camiseta mia.",
+        },
+        {
+          src: "imagenes/nosotros/3.jpeg",
+          text: "Aquí estuvimos cocinando los dos juntitos y nos dio por grabarnos mientras haciamos la tortilla de patatas.",
+        },
+        {
+          src: "imagenes/nosotros/4.jpeg",
+          text: "Si te das cuenta en esta foto llevas la camiseta que me regalaste para que tuviera una tuya y estamos en esa posición que a mi tanto me gusta.",
+        },
+        {
+          src: "imagenes/nosotros/5.jpeg",
+          text: "Esta es una de las tantas noches que hemos pasado durmiendo juntos en llamada. Donde siempre me quedo contandote historias hasta que te duermas.",
+        },
+        {
+          src: "imagenes/nosotros/6.jpeg",
+          text: "Esta noche fue en la que no me queria dormir porque a la mañana siguiente tenía que coger un ave a las 6:30 de la mañana y quería aprovechar las ultimas horas para darte mimos.",
+        },
+        {
+          src: "imagenes/nosotros/7.jpeg",
+          text: "Esta fue la primera vez que nos vimos y estabamos en esa cama en la que tanto sudamos porque no sabiamos que el aire acondicionado estaba desenchufado y por eso no funcionaba.",
+        },
+      ];
+
+      function nextSection(sectionNumber) {
+        document
+          .querySelectorAll(".section")
+          .forEach((sec) => sec.classList.remove("active"));
+        document
+          .getElementById(`section${sectionNumber}`)
+          .classList.add("active");
+        if (sectionNumber === 3) {
+          loadQuestion();
+        }
+      }
+
+      function nextImage() {
+        if (currentImage < images.length - 1) {
+          currentImage++;
+          updateGallery();
+        }
+      }
+
+      function prevImage() {
+        if (currentImage > 0) {
+          currentImage--;
+          updateGallery();
+        }
+      }
+
+      function updateGallery() {
+        document.getElementById("galleryImage").src = images[currentImage].src;
+        document.getElementById("galleryText").innerText =
+          images[currentImage].text;
+        document.getElementById("nextImageButton").style.display =
+          currentImage < images.length - 1 ? "inline-block" : "none";
+        document.getElementById("gameButton").style.display =
+          currentImage === images.length - 1 ? "inline-block" : "none";
+      }
+
+      let currentQuestion = 0;
+      const questions = [
+        {
+          question:
+            "Cual fué la primera bebida me pedí el día que nos conocimos?",
+          answers: ["Mojito", "Piña colada", "Agua (soy un chico sano)"],
+          correct: "Mojito",
+          image: "imagenes/mascotas/23.jpeg",
+        },
+        {
+          question: "¿Qué día nos conocimos en persona?",
+          answers: ["10 junio", "14 junio", "16 junio"],
+          correct: "14 junio",
+          image: "imagenes/mascotas/15.jpeg",
+        },
+        {
+          question:
+            "¿Qué fue lo primero que te dije cuando te vi en la partida?",
+          answers: ["NS", "¿Qué rango eres?", "¿Cual es tu cerveza favorita?"],
+          correct: "¿Cual es tu cerveza favorita?",
+          image: "imagenes/mascotas/12.jpeg",
+        },
+        {
+          question: "¿Cual fué la primera comida que te cocine?",
+          answers: [
+            "Tortilla de patatas sin cebolla",
+            "Tortilla de patatas con cebolla",
+            "Yo no te he cocinado nada porque eres tu la que cocina siempre",
+          ],
+          correct: "Tortilla de patatas con cebolla",
+          image: "imagenes/mascotas/6.jpeg",
+        },
+        {
+          question: "¿Cuando viaje por primera vez a Salamanca?",
+          answers: ["23/07/2024", "26/07/204", "28/07/2024"],
+          correct: "26/07/204",
+          image: "imagenes/mascotas/22.jpeg",
+        },
+      ];
+
+      function loadQuestion() {
+        let q = questions[currentQuestion];
+        document.getElementById("questionText").innerText = q.question;
+        let answersDiv = document.getElementById("answers");
+        answersDiv.innerHTML = "";
+        q.answers.forEach((answer) => {
+          let button = document.createElement("button");
+          button.innerText = answer;
+          button.className = "button";
+          button.onclick = () => checkAnswer(answer);
+          answersDiv.appendChild(button);
+        });
+      }
+
+      function checkAnswer(answer) {
+        document.getElementById("gameResult").innerText =
+          answer === questions[currentQuestion].correct
+            ? "MUY BIEN, NO ESPERABA MENOS DE TI AMOR"
+            : "SE TE OLVIDA TODO BABOSA";
+        document.getElementById("nextQuestionButton").style.display = "block";
+      }
+
+      function nextQuestion() {
+        if (currentQuestion < questions.length - 1) {
+          currentQuestion++;
+          loadQuestion();
+          document.getElementById("gameResult").innerText = "";
+          document.getElementById("nextQuestionButton").style.display = "none";
+        } else {
+          document.getElementById("gameResult").innerText =
+            "🖤 TE AMO MUCHO AMOR, OJALA MUCHOS MÁ SAN VALENTINES A TU LADO 🤍";
+          document.getElementById("nextQuestionButton").style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
